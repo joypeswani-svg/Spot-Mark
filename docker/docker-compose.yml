@@ -1,0 +1,104 @@
+version: "3.9"
+
+# TruthLens — Local Development Stack
+# Run: docker compose up -d
+# Backend API will be available at http://localhost:8000
+# Postgres at localhost:5432, Redis at localhost:6379
+
+services:
+
+  # ── PostgreSQL with pgvector ─────────────────────────────────────────────
+  postgres:
+    image: pgvector/pgvector:pg16
+    container_name: truthlens-postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: truthlens
+      POSTGRES_PASSWORD: truthlens_dev_password
+      POSTGRES_DB: truthlens
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./postgres/init.sql:/docker-entrypoint-initdb.d/init.sql
+    ports:
+      - "5432:5432"
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U truthlens"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # ── Redis (queue + cache) ────────────────────────────────────────────────
+  redis:
+    image: redis:7-alpine
+    container_name: truthlens-redis
+    restart: unless-stopped
+    command: redis-server --maxmemory 256mb --maxmemory-policy allkeys-lru
+    volumes:
+      - redis_data:/data
+    ports:
+      - "6379:6379"
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # ── FastAPI Backend ──────────────────────────────────────────────────────
+  backend:
+    build:
+      context: ../apps/backend
+      dockerfile: Dockerfile
+    container_name: truthlens-backend
+    restart: unless-stopped
+    environment:
+      DATABASE_URL: postgresql+asyncpg://truthlens:truthlens_dev_password@postgres:5432/truthlens
+      REDIS_URL: redis://redis:6379/0
+      CELERY_BROKER_URL: redis://redis:6379/1
+      CELERY_RESULT_BACKEND: redis://redis:6379/2
+      ENVIRONMENT: development
+      # API keys — set in .env file, never hardcoded here
+      GEMINI_API_KEY: ${GEMINI_API_KEY:-}
+      GOOGLE_VISION_API_KEY: ${GOOGLE_VISION_API_KEY:-}
+      GOOGLE_FACT_CHECK_API_KEY: ${GOOGLE_FACT_CHECK_API_KEY:-}
+      SUPABASE_URL: ${SUPABASE_URL:-}
+      SUPABASE_ANON_KEY: ${SUPABASE_ANON_KEY:-}
+      DEEPFAKE_PROVIDER: ${DEEPFAKE_PROVIDER:-local}
+    volumes:
+      - ../apps/backend:/app
+      - model_cache:/app/ml/models
+    ports:
+      - "8000:8000"
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    command: uvicorn app.main:app --host 0.0.0.0 --port 8000 --reload
+
+  # ── Celery Worker (async jobs: video, audio analysis) ────────────────────
+  celery-worker:
+    build:
+      context: ../apps/backend
+      dockerfile: Dockerfile
+    container_name: truthlens-celery
+    restart: unless-stopped
+    environment:
+      DATABASE_URL: postgresql+asyncpg://truthlens:truthlens_dev_password@postgres:5432/truthlens
+      REDIS_URL: redis://redis:6379/0
+      CELERY_BROKER_URL: redis://redis:6379/1
+      CELERY_RESULT_BACKEND: redis://redis:6379/2
+      ENVIRONMENT: development
+      GEMINI_API_KEY: ${GEMINI_API_KEY:-}
+      DEEPFAKE_PROVIDER: ${DEEPFAKE_PROVIDER:-local}
+    volumes:
+      - ../apps/backend:/app
+      - model_cache:/app/ml/models
+    depends_on:
+      - redis
+      - postgres
+    command: celery -A app.tasks.celery_app worker --loglevel=info --concurrency=2
+
+volumes:
+  postgres_data:
+  redis_data:
+  model_cache:  # Shared between backend + celery for ML model weights

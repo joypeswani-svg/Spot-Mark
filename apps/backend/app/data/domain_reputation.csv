@@ -1,0 +1,58 @@
+domain,factuality,bias,credibility_score,ownership,is_satire,notes
+bbc.com,high,center-left,92,public-media,false,UK public broadcaster
+bbc.co.uk,high,center-left,92,public-media,false,UK public broadcaster
+reuters.com,very-high,center,96,corporate,false,International wire service
+apnews.com,very-high,center,95,cooperative,false,US wire service
+nytimes.com,high,center-left,88,corporate,false,Major US newspaper
+washingtonpost.com,high,center-left,87,corporate,false,Major US newspaper
+theguardian.com,high,center-left,85,trust-owned,false,UK broadsheet
+economist.com,high,center,90,corporate,false,UK magazine
+wsj.com,high,center-right,88,corporate,false,Major US financial newspaper
+foxnews.com,mixed,right,55,corporate,false,US cable news
+cnn.com,mostly-factual,center-left,72,corporate,false,US cable news
+msnbc.com,mostly-factual,left,65,corporate,false,US cable news
+breitbart.com,low,far-right,25,corporate,false,US right-wing news
+infowars.com,very-low,far-right,8,independent,false,Conspiracy theories
+dailymail.co.uk,mixed,right-center,48,corporate,false,UK tabloid
+thesun.co.uk,mixed,right,42,corporate,false,UK tabloid
+rt.com,very-low,pro-russia,15,state-media,false,Russian state media
+sputniknews.com,very-low,pro-russia,12,state-media,false,Russian state media
+xinhuanet.com,low,pro-china,20,state-media,false,Chinese state media
+globaltimes.cn,low,pro-china,22,state-media,false,Chinese state media
+aljazeera.com,mostly-factual,center-left,70,state-media,false,Qatari state-funded
+ndtv.com,mostly-factual,center-left,75,corporate,false,Indian news network
+thehindu.com,high,center-left,82,corporate,false,Indian broadsheet
+hindustantimes.com,mostly-factual,center,72,corporate,false,Indian newspaper
+timesofindia.indiatimes.com,mostly-factual,center,70,corporate,false,Largest Indian English daily
+indiatoday.in,mostly-factual,center,68,corporate,false,Indian news magazine
+theprint.in,mostly-factual,center,74,independent,false,Indian digital news
+thewire.in,high,center-left,78,independent,false,Indian digital news
+scroll.in,high,center-left,76,independent,false,Indian digital news
+opindia.com,low,right,30,independent,false,Indian right-wing
+swarajyamag.com,mixed,right-center,45,independent,false,Indian center-right
+snopes.com,very-high,center,97,independent,false,Fact-checking site
+politifact.com,very-high,center,96,nonprofit,false,Fact-checking site
+factcheck.org,very-high,center,97,nonprofit,false,Fact-checking site
+fullfact.org,very-high,center,96,nonprofit,false,UK fact-checker
+boomlive.in,very-high,center,95,nonprofit,false,Indian fact-checker
+altnews.in,very-high,center,94,nonprofit,false,Indian fact-checker
+vishvasnews.com,high,center,88,corporate,false,Indian fact-checker
+thequint.com,mostly-factual,center-left,72,corporate,false,Indian digital news
+firstpost.com,mostly-factual,center-right,65,corporate,false,Indian digital news
+news18.com,mostly-factual,center,76,corporate,false,Indian news network
+aajtak.in,mostly-factual,center,78,corporate,false,Indian Hindi news
+wionews.com,mostly-factual,center-right,75,corporate,false,Indian global English news
+india.com,mostly-factual,center,76,corporate,false,Indian news portal
+zeenews.india.com,mostly-factual,center,76,corporate,false,Indian news network
+zeenews.com,mostly-factual,center,76,corporate,false,Indian news network
+abplive.com,mostly-factual,center,78,corporate,false,Indian news media
+espncricinfo.com,high,center,90,corporate,false,Major international cricket news portal
+cricbuzz.com,high,center,88,corporate,false,Major cricket news & live scores portal
+sportskeeda.com,mostly-factual,center,75,corporate,false,Sports news platform
+thedailybeast.com,mostly-factual,left,62,corporate,false,US digital news
+buzzfeednews.com,mostly-factual,center-left,64,corporate,false,US digital news
+vice.com,mostly-factual,left,60,corporate,false,US/Global digital news
+naturalnews.com,very-low,conspiracy,5,independent,false,Health misinformation
+theonion.com,satire,center,50,corporate,true,Satirical news
+babylonbee.com,satire,right,50,corporate,true,Satirical news
+clickhole.com,satire,center,50,corporate,true,Satirical news

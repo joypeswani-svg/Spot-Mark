@@ -1,0 +1,54 @@
+# Dependencies & Virtual Environments
+node_modules/
+.pnpm-store/
+.venv/
+venv/
+env/
+ENV/
+
+# Build outputs
+dist/
+build/
+.next/
+.expo/
+*.egg-info/
+__pycache__/
+*.pyc
+*.pyo
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.coverage
+htmlcov/
+
+# Environment (NEVER commit secrets)
+.env
+.env.*
+!.env.example
+*.env
+
+# ML model weights (downloaded at runtime)
+apps/backend/ml/models/*.onnx
+apps/backend/ml/models/*.bin
+apps/backend/ml/models/*.pt
+apps/backend/ml/models/*.safetensors
+
+# Logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Editor
+.vscode/settings.json
+.idea/
+*.swp
+
+# Turborepo
+.turbo/
+
+# Docker volumes (local dev)
+docker/postgres-data/

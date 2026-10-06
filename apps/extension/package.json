@@ -1,0 +1,32 @@
+{
+  "name": "@truthlens/extension",
+  "version": "0.1.0",
+  "private": true,
+  "description": "TruthLens Chrome/Edge browser extension (Manifest V3)",
+  "scripts": {
+    "build": "webpack --mode production --config webpack.config.js",
+    "dev": "webpack --mode development --watch --config webpack.config.js",
+    "clean": "rimraf dist"
+  },
+  "dependencies": {
+    "@truthlens/types": "workspace:*",
+    "react": "^18.3.0",
+    "react-dom": "^18.3.0"
+  },
+  "devDependencies": {
+    "@types/chrome": "^0.0.268",
+    "@types/node": "^26.1.2",
+    "@types/react": "^18.3.0",
+    "@types/react-dom": "^18.3.0",
+    "copy-webpack-plugin": "^12.0.0",
+    "css-loader": "^7.1.0",
+    "html-webpack-plugin": "^5.6.0",
+    "mini-css-extract-plugin": "^2.9.0",
+    "rimraf": "^5.0.0",
+    "style-loader": "^4.0.0",
+    "ts-loader": "^9.5.0",
+    "typescript": "^5.4.0",
+    "webpack": "^5.92.0",
+    "webpack-cli": "^5.1.0"
+  }
+}

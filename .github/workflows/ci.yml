@@ -1,0 +1,67 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  frontend:
+    name: Frontend (Extension & Types)
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Install pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: 9
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: "pnpm"
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Monorepo Build (Turbo)
+        run: pnpm run build
+
+      - name: Monorepo Lint (Turbo)
+        run: pnpm run lint
+
+  backend:
+    name: Backend (FastAPI & ML Services)
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: "pip"
+          cache-dependency-path: "apps/backend/requirements.txt"
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r apps/backend/requirements.txt
+
+      - name: Run Pytest Test Suite
+        working-directory: apps/backend
+        env:
+          ENVIRONMENT: test
+          DATABASE_URL: "postgresql+asyncpg://truthlens:truthlens@localhost:5432/truthlens_test"
+          REDIS_URL: "redis://localhost:6379/0"
+        run: |
+          python -m pytest tests
